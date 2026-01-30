@@ -1,0 +1,10 @@
+numpy
+pandas
+scikit-learn
+nltk
+spacy
+pdfplumber
+PyPDF2
+fastapi
+uvicorn
+pytest
