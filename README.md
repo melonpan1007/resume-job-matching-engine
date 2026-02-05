@@ -1,3 +1,4 @@
+
 # TalentMatch  
 ### Resume–Job Matching & Recommendation Platform
 
@@ -8,10 +9,10 @@
 **TalentMatch** is a production-grade Resume–Job Matching & Recommendation platform designed to analyze resumes and job descriptions, compute relevance scores, and recommend the best matches.
 
 The system focuses on:
-- real-world document ingestion (PDF resumes & JDs)
-- intelligent matching using multiple strategies
-- explainability (why a match happened)
-- modular, scalable architecture
+- Real-world document ingestion (PDF resumes & JDs)
+- Intelligent matching using multiple strategies
+- Explainability (why a match happened)
+- Modular, scalable architecture
 
 This project is designed as a **flagship, market-ready system**, not just an academic prototype.
 
@@ -19,7 +20,7 @@ This project is designed as a **flagship, market-ready system**, not just an aca
 
 ## 2. Key Features
 
-- Upload resumes and job descriptions (PDF/DOCX/TXT)
+- Upload resumes and job descriptions (PDF / DOCX / TXT)
 - Robust text extraction and preprocessing
 - Multiple matching strategies (similarity + skills)
 - Skill gap analysis
@@ -31,6 +32,7 @@ This project is designed as a **flagship, market-ready system**, not just an aca
 ---
 
 ## 3. High-Level Architecture
+
 ```
 Frontend (Web UI)
    ↓
@@ -41,58 +43,38 @@ Core Matching Engine (Python)
 Evaluation, Logs & Results
 ```
 
-**Important design principle:**  
-All intelligence lives in the `core/` engine.  
+**Design Principle:**  
+All intelligence lives inside the `core/` engine.  
 UI and backend only call interfaces — they never re-implement logic.
 
 ---
 
 ## 4. Repository Structure
+
 ```
 talentmatch/
-│
-├── frontend/                     # Web UI (React / HTML / Streamlit wrapper)
-│
+├── frontend/
 ├── backend/
-│   ├── api.py                    # REST endpoints
-│   ├── file_handler.py           # Upload handling
+│   ├── api.py
+│   ├── file_handler.py
 │   └── config.py
-│
-├── core/                          # ⭐ Core intelligence layer
+├── core/
 │   ├── ingestion/
-│   │   └── extractor.py          # PDF/DOCX/TXT → raw text
-│   │
 │   ├── preprocessing/
-│   │   └── cleaner.py            # Text normalization
-│   │
 │   ├── representation/
-│   │   └── vectorizer.py         # TF-IDF / embeddings
-│   │
 │   ├── matching/
-│   │   └── similarity.py         # Similarity & scoring logic
-│   │
 │   ├── skills/
-│   │   └── skill_engine.py       # Skill extraction & gaps
-│   │
 │   ├── recommendation/
-│   │   └── recommender.py        # Top-K recommendations
-│   │
 │   └── explainability/
-│       └── explanation.py        # Match explanation
-│
 ├── evaluation/
-│   └── evaluator.py              # Metrics & comparisons
-│
-├── tests/                        # Unit & integration tests
-│
-├── scripts/                      # Automation & DevOps scripts
-│
-├── docs/                         # Diagrams & design notes
-│
+├── tests/
+├── scripts/
+├── docs/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
+
 ---
 
 ## 5. Team Roles & Work Division
@@ -113,107 +95,167 @@ Each member owns **core logic**, not just surface-level tasks.
 ### Vivan — Skills, Recommendation & UI
 - Skill extraction & gap analysis
 - Recommendation logic
-- Frontend + backend integration
+- Frontend & backend integration
 
-**Rule:**  
-Each member works primarily inside their assigned modules.  
-All changes go through Pull Requests.
+All changes go through **Pull Requests**.
 
 ---
 
-## 6. Technologies Used (and WHY)
+## 6. Technologies Used
 
 ### Core Engine
-- **Python** – core logic & data processing
-- **scikit-learn** – vectorization & similarity
-- **NLTK / spaCy** – text preprocessing & skills
+- Python
+- scikit-learn
+- NLTK / spaCy
 
 ### Backend
-- **FastAPI / Flask** – REST API layer
-- **Python** – glue between UI and core
+- FastAPI / Flask
+- Python
 
 ### Frontend
-- **Streamlit / React / HTML-CSS-JS**
-  - Streamlit → fastest demo & integration
-  - React → optional enhancement if time permits
+- Streamlit / React / HTML-CSS-JS
 
 ### DevOps & Quality
-- **Git & GitHub** – version control & collaboration
-- **GitHub Actions** – CI pipeline
-- **pytest** – automated testing
-- **Shell scripts** – automation
+- Git & GitHub
+- GitHub Actions
+- pytest
+- Shell scripting
 
 ---
 
-## 7. Setup Instructions (Simple & Mandatory)
+## 7. Git Setup & Collaboration Guide
 
-### 1. Prerequisites
-Install the following:
-- Python 3.9 or higher
-- Git
-- VS Code (recommended)
+### 7.1 Install Git (Windows)
+
+1. Download **Git for Windows**
+2. During installation:
+   - Default editor: **Visual Studio Code**
+   - PATH option: **Git from the command line and 3rd-party software**
+3. Complete installation
+
+Verify installation:
+```bash
+git --version
+```
 
 ---
 
-### 2. Clone the Repository
-git clone <repository-url>
-cd talentmatch
+### 7.2 Configure Git Identity
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+git config --global --list
+```
 
 ---
 
-### 3. Install Dependencies
-pip install -r requirements.txt
+### 7.3 Clone Repository
 
-### 4. Run the Project (example)
-python backend/api.py
-(UI startup steps depend on chosen frontend framework.)
+```bash
+git clone https://github.com/melonpan1007/resume-job-matching-engine.git
+cd resume-job-matching-engine
+```
 
---- 
+---
 
-## 8. GitHub Workflow (STRICTLY FOLLOWED)
-Branching Rules: 
-- main branch is protected
-- Each contributor works on a feature branch
-- No direct push to main
+### 7.4 Branching (Always Use Your Own Branch)
 
-## Typical Workflow
+```bash
+git checkout -b your-name-feature
+```
 
-### 1. Create a branch
-git checkout -b feature-name
+Example:
+```bash
+git checkout -b sayali-preprocessing
+```
 
+---
 
-### 2. Work only in your assigned folders
+### 7.5 Assigned Work Areas
 
-### 3.Commit changes
+- **Affaan**
+  - `core/preprocessing/`
+  - `core/matching/`
+  - `core/explainability/`
+
+- **Sayali**
+  - `core/representation/`
+  - `evaluation/`
+
+- **Vivan**
+  - `core/skills/`
+  - `core/recommendation/`
+  - `frontend/`
+  - `backend/`
+
+Do not modify files outside your assigned folders.
+
+---
+
+### 7.6 Commit & Push Changes
+
+```bash
 git add .
-git commit -m "Clear description of changes"
+git commit -m "Clear and meaningful commit message"
+git push -u origin your-branch-name
+```
 
+---
 
-### 4. Push branch
-git push origin feature-name
+### 7.7 Pull Requests
 
-### 5.Open a Pull Request → review → merge
+1. Open Pull Request on GitHub
+2. Add short description
+3. Request review
+4. Merge into `main` only after approval
 
---- 
+---
 
-## Sync with Main (IMPORTANT)
-After merges:
+### 7.8 Sync with Main Branch
 
+```bash
 git checkout main
 git pull origin main
+git checkout your-branch-name
+```
 
-## 9. Development Rules (Non-Negotiable)
+---
 
-- No logic inside UI or backend
-- All intelligence goes into core/
-- Interfaces must be respected
-- Code must be explainable
+## 8. Development Rules (Strict)
+
+- No direct push to `main`
+- Work only in assigned folders
+- All logic must be inside `core/`
+- UI and backend must call core interfaces
 - Small, meaningful commits only
 
-## 10. Future Extensions (Out of Scope for Now)
+---
+
+## 9. Setup Instructions
+
+### Prerequisites
+- Python 3.9 or higher
+- Git
+- VS Code
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Run Project (Example)
+```bash
+python backend/api.py
+```
+
+---
+
+## 10. Future Extensions (Out of Scope)
 
 - Advanced semantic embeddings
 - LLM-based parsing
 - Full cloud deployment
-- Authentication & user roles
-These are intentionally excluded to keep execution focused.
+- Authentication & role management
+```
+
