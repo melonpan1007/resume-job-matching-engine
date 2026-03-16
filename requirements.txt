@@ -1,10 +1,10 @@
+fastapi
+uvicorn
 numpy
 pandas
 scikit-learn
 nltk
 spacy
 pdfplumber
-PyPDF2
-fastapi
-uvicorn
+python-multipart
 pytest

@@ -1,4 +1,7 @@
-# Backend API will expose endpoints
-# that call core engine functions.
+from fastapi import FastAPI
 
-# TODO: Connect frontend with core logic
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "TalentMatch API running successfully"}

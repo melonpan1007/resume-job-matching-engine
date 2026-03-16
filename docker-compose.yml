@@ -1,0 +1,9 @@
+services:
+  talentmatch:
+    build: .
+    container_name: talentmatch_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    restart: unless-stopped
