@@ -1,219 +1,483 @@
-# TalentMatch  
+# TalentMatch
 ### Resume–Job Matching & Recommendation Platform
 
 ---
 
-## 1. Project Overview
+# 1. Project Overview
 
 **TalentMatch** is a production-grade Resume–Job Matching & Recommendation platform designed to analyze resumes and job descriptions, compute relevance scores, and recommend the best matches.
 
 The system focuses on:
-- real-world document ingestion (PDF resumes & JDs)
-- intelligent matching using multiple strategies
-- explainability (why a match happened)
-- modular, scalable architecture
 
-This project is designed as a **flagship, market-ready system**, not just an academic prototype.
-
----
-
-## 2. Key Features
-
-- Upload resumes and job descriptions (PDF/DOCX/TXT)
-- Robust text extraction and preprocessing
-- Multiple matching strategies (similarity + skills)
-- Skill gap analysis
-- Resume → Job and Job → Resume recommendations
+- Document ingestion (PDF resumes & job descriptions)
+- Intelligent matching algorithms
+- Skill extraction and gap analysis
 - Explainable matching results
-- Clean UI with backend APIs
-- Production-style Git workflow, testing, and CI readiness
+- Modular and scalable architecture
+
+This project is designed as a **flagship system-level project** demonstrating real-world software engineering practices.
 
 ---
 
-## 3. High-Level Architecture
+# 2. High-Level Architecture
+
 ```
 Frontend (Web UI)
-   ↓
-Backend API (HTTP / REST)
-   ↓
-Core Matching Engine (Python)
-   ↓
-Evaluation, Logs & Results
+      ↓
+Backend API (FastAPI)
+      ↓
+Core Matching Engine
+      ↓
+Evaluation & Results
 ```
 
-**Important design principle:**  
-All intelligence lives in the `core/` engine.  
-UI and backend only call interfaces — they never re-implement logic.
+All intelligence of the system is implemented inside the **core engine**.
 
 ---
 
-## 4. Repository Structure
-```
-talentmatch/
-│
-├── frontend/                     # Web UI (React / HTML / Streamlit wrapper)
-│
-├── backend/
-│   ├── api.py                    # REST endpoints
-│   ├── file_handler.py           # Upload handling
-│   └── config.py
-│
-├── core/                          # ⭐ Core intelligence layer
-│   ├── ingestion/
-│   │   └── extractor.py          # PDF/DOCX/TXT → raw text
-│   │
-│   ├── preprocessing/
-│   │   └── cleaner.py            # Text normalization
-│   │
-│   ├── representation/
-│   │   └── vectorizer.py         # TF-IDF / embeddings
-│   │
-│   ├── matching/
-│   │   └── similarity.py         # Similarity & scoring logic
-│   │
-│   ├── skills/
-│   │   └── skill_engine.py       # Skill extraction & gaps
-│   │
-│   ├── recommendation/
-│   │   └── recommender.py        # Top-K recommendations
-│   │
-│   └── explainability/
-│       └── explanation.py        # Match explanation
-│
-├── evaluation/
-│   └── evaluator.py              # Metrics & comparisons
-│
-├── tests/                        # Unit & integration tests
-│
-├── scripts/                      # Automation & DevOps scripts
-│
-├── docs/                         # Diagrams & design notes
-│
-├── README.md
-├── requirements.txt
-└── .gitignore
-```
+# 3. Subjects Integrated in This Project
+
+This project integrates concepts from multiple subjects in this semester.
+
 ---
 
-## 5. Team Roles & Work Division
+## Information Retrieval (IR)
 
-Each member owns **core logic**, not just surface-level tasks.
+This is the **core academic concept** of the project.
 
-### Affaan — Core Architecture & Matching
+Concepts used:
+
 - Text preprocessing
-- Similarity & ranking logic
-- Explainability engine
-- Overall architecture & integration
+- Vector representation (TF-IDF)
+- Similarity computation
+- Ranking algorithms
+- Document retrieval
 
-### Sayali — Representation & Evaluation
-- Feature representation (TF-IDF / vector models)
-- Matching strategy comparison
-- Evaluation metrics & analysis
+Modules responsible:
 
-### Vivan — Skills, Recommendation & UI
-- Skill extraction & gap analysis
-- Recommendation logic
-- Frontend + backend integration
+```
+core/preprocessing
+core/representation
+core/matching
+```
 
-**Rule:**  
-Each member works primarily inside their assigned modules.  
-All changes go through Pull Requests.
+Example tasks:
 
----
-
-## 6. Technologies Used (and WHY)
-
-### Core Engine
-- **Python** – core logic & data processing
-- **scikit-learn** – vectorization & similarity
-- **NLTK / spaCy** – text preprocessing & skills
-
-### Backend
-- **FastAPI / Flask** – REST API layer
-- **Python** – glue between UI and core
-
-### Frontend
-- **Streamlit / React / HTML-CSS-JS**
-  - Streamlit → fastest demo & integration
-  - React → optional enhancement if time permits
-
-### DevOps & Quality
-- **Git & GitHub** – version control & collaboration
-- **GitHub Actions** – CI pipeline
-- **pytest** – automated testing
-- **Shell scripts** – automation
+- Resume parsing
+- Job description processing
+- Cosine similarity computation
 
 ---
 
-## 7. Setup Instructions (Simple & Mandatory)
+## Full Stack Development
 
-### 1. Prerequisites
-Install the following:
-- Python 3.9 or higher
+Full stack concepts are used to build the **user-facing application**.
+
+Components:
+
+Frontend
+- Web UI for uploading resumes and job descriptions
+
+Backend
+- REST API using **FastAPI**
+- Handles requests and returns matching results
+
+Modules responsible:
+
+```
+frontend/
+backend/api.py
+backend/file_handler.py
+```
+
+---
+
+## DevOps
+
+DevOps concepts are used to create a **consistent development environment** and automate deployment.
+
+Technologies used:
+
+- Docker
+- Docker Compose
 - Git
-- VS Code (recommended)
+- GitHub
+
+Features implemented:
+
+- Containerized backend
+- Portable development environment
+- Version control workflow
+
+Files responsible:
+
+```
+Dockerfile
+docker-compose.yml
+.gitignore
+```
 
 ---
 
-### 2. Clone the Repository
-git clone <repository-url>
-cd talentmatch
+## Software Testing
+
+Testing ensures the reliability of the system.
+
+Concepts used:
+
+- Unit testing
+- Evaluation metrics
+- Functional verification
+
+Modules responsible:
+
+```
+tests/
+evaluation/evaluator.py
+```
 
 ---
 
-### 3. Install Dependencies
-pip install -r requirements.txt
+## Cloud Computing (Future Extension)
 
-### 4. Run the Project (example)
-python backend/api.py
-(UI startup steps depend on chosen frontend framework.)
+The system is designed so it can be deployed to the cloud easily.
 
---- 
+Potential deployment targets:
 
-## 8. GitHub Workflow (STRICTLY FOLLOWED)
-Branching Rules: 
-- main branch is protected
-- Each contributor works on a feature branch
-- No direct push to main
+- AWS EC2
+- Azure App Services
+- Google Cloud Run
 
-## Typical Workflow
+Cloud architecture would include:
 
-### 1. Create a branch
-git checkout -b feature-name
+```
+User
+ ↓
+Cloud Hosted API
+ ↓
+Matching Engine
+ ↓
+Cloud Storage
+```
 
+---
 
-### 2. Work only in your assigned folders
+# 4. Quick Start (Recommended Setup)
 
-### 3.Commit changes
+The project runs inside Docker to ensure a consistent environment for all team members.
+
+---
+
+## Step 1 — Install Docker Desktop
+
+Download from:
+
+https://www.docker.com/products/docker-desktop/
+
+---
+
+## Step 2 — Clone the Repository
+
+```bash
+git clone https://github.com/melonpan1007/resume-job-matching-engine.git
+cd resume-job-matching-engine
+```
+
+---
+
+## Step 3 — Run the Project
+
+```bash
+docker compose up --build
+```
+
+---
+
+## Step 4 — Open the API
+
+Backend API:
+
+```
+http://localhost:8000
+```
+
+Interactive API documentation:
+
+```
+http://localhost:8000/docs
+```
+
+---
+
+## Step 5 — Stop the Server
+
+Press:
+
+```
+CTRL + C
+```
+
+or run:
+
+```bash
+docker compose down
+```
+
+---
+
+# 5. Team Roles
+
+The project is divided so each member works on separate modules.
+
+---
+
+## Affaan — Core Architecture
+
+Responsible for:
+
+- preprocessing
+- similarity scoring
+- explainability engine
+- system integration
+
+Modules:
+
+```
+core/preprocessing
+core/matching
+core/explainability
+```
+
+---
+
+## Sayali — Representation & Evaluation
+
+Responsible for:
+
+- feature representation
+- vectorization
+- evaluation metrics
+
+Modules:
+
+```
+core/representation
+evaluation
+```
+
+---
+
+## Vivan — Skills & Recommendation
+
+Responsible for:
+
+- skill extraction
+- recommendation logic
+- frontend/backend integration
+
+Modules:
+
+```
+core/skills
+core/recommendation
+frontend
+backend
+```
+
+---
+
+# 6. Git Workflow
+
+Each team member works on a **separate branch**.
+
+Never push directly to `main`.
+
+---
+
+## Create a Branch
+
+```bash
+git checkout -b your-name-feature
+```
+
+Example:
+
+```
+git checkout -b sayali-vectorizer
+```
+
+---
+
+## Commit Changes
+
+```bash
 git add .
-git commit -m "Clear description of changes"
+git commit -m "Describe your changes"
+```
 
+---
 
-### 4. Push branch
-git push origin feature-name
+## Push Changes
 
-### 5.Open a Pull Request → review → merge
+```bash
+git push origin your-branch-name
+```
 
---- 
+---
 
-## Sync with Main (IMPORTANT)
-After merges:
+## Create Pull Request
 
-git checkout main
-git pull origin main
+1. Go to GitHub
+2. Click **Compare & Pull Request**
+3. Add description
+4. Merge after review
 
-## 9. Development Rules (Non-Negotiable)
+---
 
-- No logic inside UI or backend
-- All intelligence goes into core/
-- Interfaces must be respected
-- Code must be explainable
-- Small, meaningful commits only
+# 7. Development Rules
 
-## 10. Future Extensions (Out of Scope for Now)
+To avoid conflicts:
 
-- Advanced semantic embeddings
-- LLM-based parsing
-- Full cloud deployment
-- Authentication & user roles
-These are intentionally excluded to keep execution focused.
+- No direct push to `main`
+- Work only in assigned folders
+- Pull latest main before starting work
+- Make small commits
+- Follow project structure
+
+---
+
+# 8. Using ChatGPT to Assist Development
+
+Each team member can use ChatGPT to help implement their modules.
+
+Paste this README and use the following prompt.
+
+---
+
+### Prompt for Affaan
+
+```
+I am Affaan working on the TalentMatch project.
+
+My role is Core Architecture.
+
+My modules are:
+
+core/preprocessing
+core/matching
+core/explainability
+
+Help me implement these modules step by step.
+```
+
+---
+
+### Prompt for Sayali
+
+```
+I am Sayali working on the TalentMatch project.
+
+My role is Representation & Evaluation.
+
+My modules are:
+
+core/representation
+evaluation
+
+Help me implement TF-IDF vectorization and evaluation metrics.
+```
+
+---
+
+### Prompt for Vivan
+
+```
+I am Vivan working on the TalentMatch project.
+
+My role is Skills & Recommendation.
+
+My modules are:
+
+core/skills
+core/recommendation
+frontend
+backend
+
+Help me implement skill extraction and recommendation logic.
+```
+
+---
+
+# 9. Project Structure
+
+## 📁 Project Structure
+
+```
+TALENTMATCH
+│
+├── backend
+│   ├── __pycache__
+│   ├── __init__.py
+│   ├── api.py
+│   ├── config.py
+│   └── file_handler.py
+│
+├── core
+│   ├── explainability
+│   │   ├── __init__.py
+│   │   └── explanation.py
+│   │
+│   ├── ingestion
+│   │   ├── __init__.py
+│   │   └── extractor.py
+│   │
+│   ├── matching
+│   │   ├── __init__.py
+│   │   └── similarity.py
+│   │
+│   ├── preprocessing
+│   │   ├── __init__.py
+│   │   └── cleaner.py
+│   │
+│   ├── recommendation
+│   │   ├── __init__.py
+│   │   └── recommender.py
+│   │
+│   ├── representation
+│   │   ├── __init__.py
+│   │   └── vectorizer.py
+│   │
+│   ├── skills
+│   │   ├── __init__.py
+│   │   └── skill_engine.py
+│   │
+│   └── __init__.py
+│
+├── docs
+│
+├── evaluation
+│   ├── __init__.py
+│   └── evaluator.py
+│
+├── frontend
+├── scripts
+├── tests
+│
+├── .dockerignore
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+└── requirements.txt
+```
+
+---
+
+# 10. Future Extensions
+
+Planned improvements:
+
+- Cloud deployment
+- advanced semantic embeddings
+- LLM-based resume analysis
+- scalable job recommendation engine
