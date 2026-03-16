@@ -348,18 +348,31 @@ To avoid conflicts:
 
 # 8. Using ChatGPT to Assist Development
 
-Each team member can use ChatGPT to help implement their modules.
+Each team member can use ChatGPT to help implement their assigned module.
 
-Paste this README and use the following prompt.
+Before starting development, copy the entire README and paste it into ChatGPT together with the prompt below.
+
+These prompts assume you **have not installed anything yet** and will guide you step-by-step.
 
 ---
 
-### Prompt for Affaan
+## Prompt for Affaan (Core Architecture)
 
 ```
 I am Affaan working on the TalentMatch project.
 
-My role is Core Architecture.
+I have not installed anything or set up the project yet.
+
+Below is the README of our project.
+
+Please help me step-by-step to:
+
+1. install the required tools (Git, Docker, etc.)
+2. clone and run the project
+3. understand the project structure
+4. start implementing my modules
+
+My role in the project is Core Architecture.
 
 My modules are:
 
@@ -367,15 +380,26 @@ core/preprocessing
 core/matching
 core/explainability
 
-Help me implement these modules step by step.
+Please guide me step-by-step and help implement these modules.
 ```
 
 ---
 
-### Prompt for Sayali
+## Prompt for Sayali (Representation & Evaluation)
 
 ```
 I am Sayali working on the TalentMatch project.
+
+I have not installed anything or set up the project yet.
+
+Below is the README of our project.
+
+Please help me step-by-step to:
+
+1. install the required tools (Git, Docker, etc.)
+2. clone and run the project
+3. understand the project structure
+4. start implementing my modules
 
 My role is Representation & Evaluation.
 
@@ -384,15 +408,26 @@ My modules are:
 core/representation
 evaluation
 
-Help me implement TF-IDF vectorization and evaluation metrics.
+Please help me implement TF-IDF vectorization and evaluation metrics for resume-job matching.
 ```
 
 ---
 
-### Prompt for Vivan
+## Prompt for Vivan (Skills & Recommendation)
 
 ```
 I am Vivan working on the TalentMatch project.
+
+I have not installed anything or set up the project yet.
+
+Below is the README of our project.
+
+Please help me step-by-step to:
+
+1. install the required tools (Git, Docker, etc.)
+2. clone and run the project
+3. understand the project structure
+4. start implementing my modules
 
 My role is Skills & Recommendation.
 
@@ -403,7 +438,7 @@ core/recommendation
 frontend
 backend
 
-Help me implement skill extraction and recommendation logic.
+Please help me implement skill extraction and recommendation logic.
 ```
 
 ---
