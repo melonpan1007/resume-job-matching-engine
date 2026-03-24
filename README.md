@@ -476,6 +476,7 @@ backend
 Please help me implement skill extraction and recommendation logic.
 ```
 ### 2nd Prompt
+```
 I have already implemented skill extraction and comparison.
 
 Now the project is being upgraded to include Deep Learning.
@@ -495,7 +496,7 @@ Project also includes:
 - Deep learning embeddings (BERT)
 
 Help me improve my implementation step by step while keeping it modular.
-
+```
 ---
 
 # 9. Project Structure
