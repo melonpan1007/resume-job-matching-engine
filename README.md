@@ -159,7 +159,25 @@ Matching Engine
  ↓
 Cloud Storage
 ```
+---
 
+## Deep Learning
+
+Deep Learning is used to improve semantic understanding of resumes and job descriptions.
+
+We use transformer-based models (Sentence Transformers / BERT) to generate embeddings and compute similarity beyond keyword matching.
+
+---
+
+## Data Science
+
+Data Science techniques are used to evaluate and analyze system performance.
+
+Includes:
+- Statistical analysis of match scores
+- Model comparison (TF-IDF vs Deep Learning)
+- A/B testing of different approaches
+- Basic recommendation analysis
 ---
 
 # 4. Quick Start (Recommended Setup)
@@ -231,14 +249,15 @@ The project is divided so each member works on separate modules.
 
 ---
 
-## Affaan — Core Architecture
-
+## Affaan — Core Architecture + Deep Learning + Data Science Lead
 Responsible for:
 
 - preprocessing
 - similarity scoring
 - explainability engine
 - system integration
+- deep learning integration
+- evaluation and Data Science analytics
 
 Modules:
 
@@ -246,11 +265,14 @@ Modules:
 core/preprocessing
 core/matching
 core/explainability
+core/deep_learning/embedder.py
+evaluation/analytics.py
+
 ```
 
 ---
 
-## Sayali — Representation & Evaluation
+## Sayali — Representation & Evaluation + Deep Learning
 
 Responsible for:
 
@@ -262,7 +284,8 @@ Modules:
 
 ```
 core/representation
-evaluation
+core/deep_learning (support)
+evaluation (support)
 ```
 
 ---
@@ -390,31 +413,43 @@ Please guide me step-by-step and help implement these modules.
 ```
 I am Sayali working on the TalentMatch project.
 
-I have not installed anything or set up the project yet.
+I have not set up anything yet.
 
-Below is the README of our project.
+Below is the README of the project.
 
 Please help me step-by-step to:
 
-1. install the required tools (Git, Docker, etc.)
+1. install required tools (Git, Docker)
 2. clone and run the project
 3. understand the project structure
 4. start implementing my modules
 
-My role is Representation & Evaluation.
+My role:
+Representation & Evaluation + Deep Learning
 
 My modules are:
 
 core/representation
+core/deep_learning
 evaluation
 
-Please help me implement TF-IDF vectorization and evaluation metrics for resume-job matching.
+My tasks:
+- implement TF-IDF vectorization
+- implement Deep Learning embeddings (Sentence Transformers / BERT)
+- compare both approaches
+- build evaluation metrics
+
+Important:
+My outputs should be usable by the matching module later.
+
+Help me implement everything step-by-step in a modular and clean way.
 ```
 
 ---
 
 ## Prompt for Vivan (Skills & Recommendation)
 
+### 1st Prompt
 ```
 I am Vivan working on the TalentMatch project.
 
@@ -440,6 +475,26 @@ backend
 
 Please help me implement skill extraction and recommendation logic.
 ```
+### 2nd Prompt
+I have already implemented skill extraction and comparison.
+
+Now the project is being upgraded to include Deep Learning.
+
+I need help to:
+
+1. understand how my skills module can integrate with deep learning
+2. improve skill matching using semantic similarity (instead of exact matching only)
+3. optionally enhance compare_skills using embeddings
+
+Current modules:
+core/skills
+core/recommendation
+
+Project also includes:
+- TF-IDF matching
+- Deep learning embeddings (BERT)
+
+Help me improve my implementation step by step while keeping it modular.
 
 ---
 
@@ -469,6 +524,7 @@ TALENTMATCH
 │   ├── matching
 │   │   ├── __init__.py
 │   │   └── similarity.py
+│   │   └── scorer.py
 │   │
 │   ├── preprocessing
 │   │   ├── __init__.py
@@ -485,14 +541,19 @@ TALENTMATCH
 │   ├── skills
 │   │   ├── __init__.py
 │   │   └── skill_engine.py
+│   │ 
+│   ├── deep_learning
+│   │   ├── __init__.py
+│   │   └── embedder.py
 │   │
 │   └── __init__.py
-│
+│     
 ├── docs
 │
 ├── evaluation
 │   ├── __init__.py
 │   └── evaluator.py
+│   └── analytics.py    
 │
 ├── frontend
 ├── scripts
