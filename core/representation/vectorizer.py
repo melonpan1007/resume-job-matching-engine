@@ -1,25 +1,17 @@
-def build_vectorizer(corpus: list[str]):
-    """
-    Fit a vectorizer model on corpus.
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-    Args:
-        corpus (list[str]): List of documents
+class TFIDFVectorizer:
+    def __init__(self):
+        self.vectorizer = TfidfVectorizer()
 
-    Returns:
-        object: Trained vectorizer model
-    """
-    pass
+    def fit_transform(self, documents):
+        """
+        Fit the TF-IDF model and transform documents
+        """
+        return self.vectorizer.fit_transform(documents)
 
-
-def vectorize_text(vectorizer, text: str):
-    """
-    Convert text into vector representation.
-
-    Args:
-        vectorizer: Trained vectorizer
-        text (str): Input text
-
-    Returns:
-        vector
-    """
-    pass
+    def transform(self, documents):
+        """
+        Transform new documents using existing model
+        """
+        return self.vectorizer.transform(documents)

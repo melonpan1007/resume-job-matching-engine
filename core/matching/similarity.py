@@ -1,12 +1,6 @@
-def compute_similarity(resume_vector, job_vector) -> float:
-    """
-    Compute similarity score between resume and job.
+from sklearn.metrics.pairwise import cosine_similarity
 
-    Args:
-        resume_vector: Vector representation of resume
-        job_vector: Vector representation of job description
-
-    Returns:
-        float: Similarity score
-    """
-    pass
+class Similarity:
+    @staticmethod
+    def compute(vec1, vec2):
+        return cosine_similarity(vec1, vec2)
