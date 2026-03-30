@@ -8,3 +8,4 @@ spacy
 pdfplumber
 python-multipart
 pytest
+sentence-transformers

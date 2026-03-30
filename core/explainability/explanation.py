@@ -1,8 +1,15 @@
-def explain_match(resume_text: str, job_text: str) -> dict:
+def generate_explanation(result):
     """
-    Explain why a resume matched a job.
+    Generate human-readable explanation for match
+    """
 
-    Returns:
-        dict: Explanation details
+    return f"""
+    Match Score: {result['final_score']}
+
+    TF-IDF Similarity: {result['tfidf_score']}
+    Semantic Similarity (BERT): {result['bert_score']}
+    Skill Match Score: {result['skill_score']}
+
+    Matched Skills: {", ".join(result['matched_skills'])}
+    Missing Skills: {", ".join(result['missing_skills'])}
     """
-    pass

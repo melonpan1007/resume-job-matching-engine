@@ -1,11 +1,5 @@
-def extract_text(file_path: str) -> str:
-    """
-    Extract raw text from PDF, DOCX, or TXT files.
+from backend.file_handler import extract_text_from_pdf
 
-    Args:
-        file_path (str): Path to the document
-
-    Returns:
-        str: Extracted raw text
-    """
-    pass
+def extract_text(file):
+    """Wrapper for document ingestion"""
+    return extract_text_from_pdf(file)

@@ -1,17 +1,13 @@
-def preprocess_text(text: str) -> str:
-    """
-    Clean and normalize raw text.
+import re 
 
-    Steps may include:
-    - lowercasing
-    - removing special characters
-    - stopword removal
-    - lemmatization
+def clean_text(text:str) -> str:
+    """Basic text cleaning"""
 
-    Args:
-        text (str): Raw input text
+    text = text.lower()
+    text = re.sub(r'\n', ' ', text)
+    text = re.sub(r' [^a-zA-Z0-9\s]','', text)
 
-    Returns:
-        str: Cleaned text
-    """
-    pass
+    return text.strip()
+
+
+#normalized text before representation
