@@ -1,71 +1,97 @@
-from core.skills.skill_engine import extract_skills, compare_skills
+from core.data_loader import load_jobs
 from core.representation.vectorizer import TFIDFVectorizer
+from core.skills.skill_engine import extract_skills, compare_skills
 from core.deep_learning.embedder import Embedder
 from core.matching.similarity import Similarity
-from core.ingestion.job_loader import load_jobs
 
 
 def recommend_jobs(resume_text: str, top_k: int = 5):
 
-    jobs = load_jobs()
+    # -----------------------------
+    # LOAD DATASET
+    # -----------------------------
+    df = load_jobs()
 
-    if not resume_text or not jobs:
-        return []
+    job_texts = df["Job Description"].tolist()
+    job_titles = df["Job Title"].tolist()
 
-    # 🔹 INIT models
+    # -----------------------------
+    # INIT MODELS
+    # -----------------------------
     tfidf = TFIDFVectorizer()
     embedder = Embedder()
 
-    documents = [resume_text] + [job["text"] for job in jobs]
+    # Combine resume + jobs
+    documents = [resume_text] + job_texts
 
-    # 🔹 TF-IDF vectors
+    # -----------------------------
+    # VECTOR REPRESENTATION
+    # -----------------------------
     tfidf_vectors = tfidf.fit_transform(documents)
-
-    # 🔹 BERT embeddings
     embeddings = embedder.encode(documents)
 
+    # -----------------------------
+    # EXTRACT RESUME SKILLS
+    # -----------------------------
     resume_skills = extract_skills(resume_text)
 
     recommendations = []
 
-    for i, job in enumerate(jobs):
-
-        job_text = job["text"]
-        job_title = job["title"]
+    # -----------------------------
+    # LOOP THROUGH JOBS
+    # -----------------------------
+    for i, job_text in enumerate(job_texts):
 
         job_skills = extract_skills(job_text)
 
-        # 🔹 Skill score
+        # 🔹 Skill Matching Score
         skill_result = compare_skills(resume_skills, job_skills)
         skill_score = skill_result["score"]
 
-        # 🔹 TF-IDF score
-        tfidf_score = Similarity.compute(
-            tfidf_vectors[0], tfidf_vectors[i + 1]
+        # 🔹 TF-IDF Similarity
+        tfidf_score = float(
+            Similarity.compute(tfidf_vectors[0], tfidf_vectors[i + 1])
         )
 
-        # 🔹 BERT score
-        bert_score = Similarity.compute(
-            [embeddings[0]], [embeddings[i + 1]]
+        # 🔹 BERT Similarity
+        bert_score = float(
+            Similarity.compute([embeddings[0]], [embeddings[i + 1]])
         )
 
-        # 🔹 FINAL SCORE
+        # 🔹 FINAL SCORE (weighted)
         final_score = round(
             0.3 * tfidf_score +
             0.5 * bert_score +
-            0.2 * skill_score, 3
+            0.2 * skill_score,
+            3
         )
 
+        # -----------------------------
+        # STORE RESULT (🔥 FIXED PART)
+        # -----------------------------
         recommendations.append({
-            "job_title": job_title,
-            "tfidf_score": float(tfidf_score),
-            "bert_score": float(bert_score),
-            "skill_score": float(skill_score),
-            "final_score": float(final_score),
+            "job_title": job_titles[i],
+            "job_description": job_text[:150],
+
+            # 🔥 THESE WERE MISSING (CRITICAL FIX)
+            "tfidf_score": tfidf_score,
+            "bert_score": bert_score,
+            "skill_score": skill_score,
+
+            "final_score": final_score,
             "matched_skills": skill_result["matched"],
             "missing_skills": skill_result["missing"]
         })
 
-    recommendations.sort(key=lambda x: x["final_score"], reverse=True)
+    # -----------------------------
+    # SORT BY BEST MATCH
+    # -----------------------------
+    recommendations.sort(
+        key=lambda x: x["final_score"],
+        reverse=True
+    )
 
+    # ----------------------------- 
+    # RETURN TOP K
+    # -----------------------------
     return recommendations[:top_k]

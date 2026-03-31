@@ -56,7 +56,7 @@ dropZone.addEventListener("drop", (e) => {
 })
 
 // -----------------------------
-// GAUGE CHART
+// GAUGE CHART (SCORE VISUAL)
 // -----------------------------
 function drawGauge(score) {
     const ctx = document.getElementById("gaugeChart").getContext("2d")
@@ -70,7 +70,9 @@ function drawGauge(score) {
             datasets: [{
                 data: [percent, 100 - percent],
                 backgroundColor: [
-                    percent > 70 ? "#00ff99" : percent > 40 ? "#ffcc00" : "#ff4444",
+                    percent > 70 ? "#00ff99" :
+                    percent > 40 ? "#ffcc00" :
+                    "#ff4444",
                     "rgba(255,255,255,0.1)"
                 ],
                 borderWidth: 0
@@ -110,7 +112,6 @@ async function upload() {
         })
 
         const data = await res.json()
-
         console.log("API:", data)
 
         document.getElementById("dashboard").style.display = "block"
@@ -120,11 +121,17 @@ async function upload() {
             return
         }
 
+        // -----------------------------
+        // BEST SCORE → GAUGE
+        // -----------------------------
         const bestScore = data.recommendations[0].final_score
         drawGauge(bestScore)
 
         let html = ""
 
+        // -----------------------------
+        // LOOP THROUGH JOBS
+        // -----------------------------
         data.recommendations.forEach(job => {
 
             const skills = (job.matched_skills || [])
@@ -133,18 +140,28 @@ async function upload() {
 
             html += `
                 <div class="result-card">
+
+                    <!-- JOB TITLE -->
                     <div style="display:flex; justify-content:space-between;">
-                        <strong>Job ${job.job_id}</strong>
+                        <strong>${job.job_title || "Job Role"}</strong>
                         <span>${(job.final_score * 100).toFixed(0)}%</span>
                     </div>
 
-                    <div style="font-size:0.85rem; margin:10px 0;">
-                        TF-IDF: ${job.tfidf_score.toFixed(2)} |
-                        BERT: ${job.bert_score.toFixed(2)} |
-                        Skills: ${job.skill_score.toFixed(2)}
+                    <!-- DESCRIPTION -->
+                    <p style="font-size:0.85rem; opacity:0.8; margin:8px 0;">
+                        ${job.job_description || "No description available"}
+                    </p>
+
+                    <!-- SCORE BREAKDOWN -->
+                    <div style="font-size:0.8rem; margin-bottom:8px;">
+                        TF-IDF: ${job.tfidf_score?.toFixed(2) || "-"} |
+                        BERT: ${job.bert_score?.toFixed(2) || "-"} |
+                        Skills: ${job.skill_score?.toFixed(2) || "-"}
                     </div>
 
+                    <!-- SKILLS -->
                     <div class="tag-container">${skills}</div>
+
                 </div>
             `
         })
