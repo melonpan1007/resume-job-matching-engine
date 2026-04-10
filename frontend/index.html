@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TalentMatch | AI Resume Analyzer</title>
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <nav class="navbar">
@@ -15,24 +17,34 @@
 </nav>
 
 <main class="main-layout">
+
     <section class="hero">
         <h1>Smart Resume <span class="gradient-text">Matching</span></h1>
         <p>Upload your PDF resume to see how well you align with current industry roles using BERT & TF-IDF analysis.</p>
-        
+
         <div class="upload-container">
+
             <div class="upload-box" id="drop-zone">
                 <div class="upload-icon">📂</div>
                 <p>Drag & drop resume or <span>browse files</span></p>
                 <p id="file-name" class="file-status">No file selected (PDF only)</p>
             </div>
+
             <input type="file" id="file" accept=".pdf" hidden>
+
             <button class="btn-primary" onclick="upload()">Analyze My Profile</button>
+
             <div class="loader" id="loader"></div>
+
+            <!-- 🔥 STATUS TEXT -->
+            <p id="statusText"></p>
+
         </div>
     </section>
 
     <section class="dashboard-section" id="dashboard" style="display: none;">
         <div class="stats-grid">
+
             <div class="chart-card">
                 <h3>Overall Match Strength</h3>
                 <div class="chart-container">
@@ -40,15 +52,18 @@
                     <div id="scoreText" class="score-overlay">0%</div>
                 </div>
             </div>
+
             <div class="results-container">
                 <h3>✨ Career Recommendations</h3>
-                <div id="result" class="results-list">
-                    </div>
+                <div id="result"></div>
             </div>
+
         </div>
     </section>
+
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>

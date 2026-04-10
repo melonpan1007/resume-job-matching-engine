@@ -2,20 +2,17 @@ import re
 
 # You can expand this list later
 COMMON_SKILLS = [
-    "python",
-    "java",
-    "c++",
-    "machine learning",
-    "deep learning",
-    "sql",
-    "mongodb",
-    "docker",
-    "kubernetes",
-    "react",
-    "node",
-    "aws",
-    "git",
+    "python", "java", "c++",
+    "machine learning", "deep learning",
+    "sql", "mongodb",
+    "docker", "kubernetes",
+    "react", "node", "aws", "git",
     "data analysis",
+
+    # 🔥 ADD THESE
+    "pandas", "numpy", "tensorflow", "pytorch",
+    "fastapi", "flask", "nlp", "computer vision",
+    "azure", "gcp"
 ]
 
 

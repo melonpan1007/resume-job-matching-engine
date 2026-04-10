@@ -13,3 +13,5 @@ def generate_explanation(result):
     Matched Skills: {", ".join(result['matched_skills'])}
     Missing Skills: {", ".join(result['missing_skills'])}
     """
+
+# System is explainable, not black-box

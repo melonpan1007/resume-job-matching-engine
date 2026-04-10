@@ -4,17 +4,13 @@ let chartInstance = null
 const fileInput = document.getElementById("file")
 const dropZone = document.getElementById("drop-zone")
 const fileName = document.getElementById("file-name")
-
-// -----------------------------
-// FILE CLICK (FIX DOUBLE OPEN)
-// -----------------------------
-dropZone.addEventListener("click", () => {
-    fileInput.click()
-})
+const status = document.getElementById("statusText")
 
 // -----------------------------
 // FILE SELECT
 // -----------------------------
+dropZone.addEventListener("click", () => fileInput.click())
+
 fileInput.addEventListener("change", () => {
     if (fileInput.files.length > 0) {
         selectedFile = fileInput.files[0]
@@ -23,31 +19,25 @@ fileInput.addEventListener("change", () => {
 })
 
 // -----------------------------
-// DRAG OVER
+// DRAG & DROP
 // -----------------------------
-dropZone.addEventListener("dragover", (e) => {
+dropZone.addEventListener("dragover", e => {
     e.preventDefault()
     dropZone.classList.add("active")
 })
 
-// -----------------------------
-// DRAG LEAVE
-// -----------------------------
 dropZone.addEventListener("dragleave", () => {
     dropZone.classList.remove("active")
 })
 
-// -----------------------------
-// DROP FILE
-// -----------------------------
-dropZone.addEventListener("drop", (e) => {
+dropZone.addEventListener("drop", e => {
     e.preventDefault()
     dropZone.classList.remove("active")
 
     const file = e.dataTransfer.files[0]
 
     if (!file || file.type !== "application/pdf") {
-        alert("Please upload a PDF file")
+        alert("Upload PDF only")
         return
     }
 
@@ -56,13 +46,15 @@ dropZone.addEventListener("drop", (e) => {
 })
 
 // -----------------------------
-// GAUGE CHART (SCORE VISUAL)
+// GAUGE
 // -----------------------------
 function drawGauge(score) {
+
     const ctx = document.getElementById("gaugeChart").getContext("2d")
-    const percent = Math.round(score * 100)
 
     if (chartInstance) chartInstance.destroy()
+
+    const percent = Math.round(score)
 
     chartInstance = new Chart(ctx, {
         type: "doughnut",
@@ -99,8 +91,27 @@ async function upload() {
         return
     }
 
-    document.getElementById("loader").style.display = "block"
-    document.getElementById("result").innerHTML = ""
+    const loader = document.getElementById("loader")
+    const resultDiv = document.getElementById("result")
+    const dashboard = document.getElementById("dashboard")
+
+    loader.style.display = "block"
+    resultDiv.innerHTML = ""
+
+    // 🔥 LOADING STAGES
+    status.innerText = "📄 Reading resume..."
+
+    setTimeout(() => {
+        status.innerText = "🧠 Extracting skills..."
+    }, 700)
+
+    setTimeout(() => {
+        status.innerText = "⚡ Running AI model..."
+    }, 1400)
+
+    setTimeout(() => {
+        status.innerText = "🔍 Matching jobs..."
+    }, 2100)
 
     const formData = new FormData()
     formData.append("file", selectedFile)
@@ -112,68 +123,80 @@ async function upload() {
         })
 
         const data = await res.json()
-        console.log("API:", data)
 
-        document.getElementById("dashboard").style.display = "block"
+        status.innerText = "✅ Completed"
+
+        setTimeout(() => {
+            loader.style.display = "none"
+            status.innerText = ""
+        }, 800)
+
+        dashboard.style.display = "block"
+
+        drawGauge(data.overall_score)
 
         if (!data.recommendations || data.recommendations.length === 0) {
-            document.getElementById("result").innerHTML = "<p>No matches found</p>"
+            resultDiv.innerHTML = "<p>No matches found</p>"
             return
         }
 
-        // -----------------------------
-        // BEST SCORE → GAUGE
-        // -----------------------------
-        const bestScore = data.recommendations[0].final_score
-        drawGauge(bestScore)
-
         let html = ""
 
-        // -----------------------------
-        // LOOP THROUGH JOBS
-        // -----------------------------
-        data.recommendations.forEach(job => {
+        data.recommendations.forEach((job, index) => {
 
-            const skills = (job.matched_skills || [])
-                .map(s => `<span class="skill-tag">${s}</span>`)
+            const isTop = index === 0 ? "🔥 BEST MATCH" : ""
+
+            const matched = (job.matched_skills || [])
+                .map(s => `<span class="skill">${s}</span>`)
                 .join("")
 
+            const missing = (job.missing_skills || []).length > 0
+                ? job.missing_skills.map(s => `<span class="skill missing">${s}</span>`).join("")
+                : `<span style="color:#00ff99;">No major skill gaps 🎯</span>`
+            
             html += `
                 <div class="result-card">
 
-                    <!-- JOB TITLE -->
                     <div style="display:flex; justify-content:space-between;">
-                        <strong>${job.job_title || "Job Role"}</strong>
+                        <strong>${job.job_title}</strong>
                         <span>${(job.final_score * 100).toFixed(0)}%</span>
                     </div>
 
-                    <!-- DESCRIPTION -->
-                    <p style="font-size:0.85rem; opacity:0.8; margin:8px 0;">
-                        ${job.job_description || "No description available"}
-                    </p>
-
-                    <!-- SCORE BREAKDOWN -->
-                    <div style="font-size:0.8rem; margin-bottom:8px;">
-                        TF-IDF: ${job.tfidf_score?.toFixed(2) || "-"} |
-                        BERT: ${job.bert_score?.toFixed(2) || "-"} |
-                        Skills: ${job.skill_score?.toFixed(2) || "-"}
+                    <div style="color:#00ff99; font-size:0.8rem;">
+                        ${isTop}
                     </div>
 
-                    <!-- SKILLS -->
-                    <div class="tag-container">${skills}</div>
+                    <p>${job.job_description}</p>
+
+                    <p style="font-size:0.8rem; color:#94a3b8;">
+                        ${job.explanation}
+                    </p>
+
+                    <div>
+                        <small>BERT: ${job.bert_score.toFixed(2)}</small>
+                        <div class="bar"><div class="fill" style="width:${job.bert_score * 100}%"></div></div>
+
+                        <small>TF-IDF: ${job.tfidf_score.toFixed(2)}</small>
+                        <div class="bar yellow"><div class="fill" style="width:${job.tfidf_score * 100}%"></div></div>
+                    </div>
+
+                    <div><b>Matched:</b><br>${matched}</div>
+                    <div><b>Missing:</b><br>${missing}</div>
+
+                    <p style="color:#ffcc00;">${job.suggestion}</p>
 
                 </div>
             `
         })
 
-        document.getElementById("result").innerHTML = html
+        resultDiv.innerHTML = html
 
-        document.getElementById("dashboard").scrollIntoView({ behavior: "smooth" })
+        dashboard.scrollIntoView({ behavior: "smooth" })
 
     } catch (err) {
         console.error(err)
-        alert("Backend error — make sure FastAPI is running")
+        loader.style.display = "none"
+        status.innerText = ""
+        alert("Backend error")
     }
-
-    document.getElementById("loader").style.display = "none"
 }

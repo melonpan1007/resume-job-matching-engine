@@ -78,7 +78,7 @@ Components:
 Frontend
 - Web UI for uploading resumes and job descriptions
 
-Backend
+Backend  
 - REST API using **FastAPI**
 - Handles requests and returns matching results
 
